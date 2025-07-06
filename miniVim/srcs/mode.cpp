@@ -23,8 +23,8 @@ void Esc::toggleVisMode()
   {
     qDebug() << "Selection started\n";
     this->sel_struct->tcurs = this->ui.iTextEdit->textCursor();
-    this->sel_struct->sel_start = sel_struct->tcurs.selectionStart();
-    qDebug() << "Start:" << sel_struct->sel_start;
+    this->sel_struct->sel_start = sel_struct->tcurs.anchor();
+    this->sel_struct->tcurs.setPosition(this->sel_struct->sel_start);    qDebug() << "Start:" << sel_struct->sel_start;
   }
 }
 
