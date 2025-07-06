@@ -66,11 +66,13 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
     if (keyEvent->text() == "y" && vis_mode == true)
     {
       ui.iTextEdit->setTextCursor(sel_struct->tcurs);
+
       sel_struct->sel_end = sel_struct->tcurs.position();
       sel_struct->tcurs.setPosition(this->sel_struct->sel_start);
       sel_struct->tcurs.setPosition(sel_struct->sel_end, QTextCursor::KeepAnchor);
       qDebug() << "End:" << sel_struct->sel_end;
       sel_struct->to_paste = sel_struct->tcurs.selectedText();
+
       this->vis_mode = false;
       this->ui.label->setText("NRM");
       return true;
@@ -78,6 +80,7 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
   }
 
   // Handle Esc shortcuts
+
   if (event->type() == QEvent::KeyPress && this->esc_mode == true && this->cmd_mode == false)
   {
     int key = keyEvent->key();

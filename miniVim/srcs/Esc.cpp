@@ -4,12 +4,13 @@
 #include <iostream>
 
 
-Esc::Esc(MainWindow &win, Ui::MainWindow &ui):ui(ui),win(win)
+Esc::Esc(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
 {
   this->esc_mode = false;
   this->ins_mode = true;
   this->cmd_mode = false;
   this->vis_mode = true;
+  this->file = file;
   ui.iTextEdit->installEventFilter(this);
   ui.eTextEdit->installEventFilter(this);
   ui.iTextEdit->setFocus();

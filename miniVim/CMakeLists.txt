@@ -21,6 +21,7 @@ set(PROJECT_SOURCES
         includes/Esc.h
         srcs/eventFilter.cpp
         srcs/mode.cpp
+        srcs/createfile.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

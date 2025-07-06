@@ -3,6 +3,7 @@
 
 #include "mainwindow.h"
 #include <qcoreevent.h>
+#include <qevent.h>
 #include <qmainwindow.h>
 #include <qplaintextedit.h>
 #include <qtextcursor.h>
@@ -20,9 +21,11 @@ class Esc: public QPlainTextEdit
   Q_OBJECT
 
   public:
-    Esc (MainWindow &win, Ui::MainWindow &ui);
+    Esc(MainWindow &win, Ui::MainWindow &ui, const char *file);
     ~Esc();
     bool getEscMode();
+
+    void createFile();
 
   public slots:
     void toggleEscMode();
@@ -48,6 +51,7 @@ class Esc: public QPlainTextEdit
     Ui::MainWindow &ui;
     MainWindow &win;
     t_sel *sel_struct;
+    const char *file;
 
 };
 
