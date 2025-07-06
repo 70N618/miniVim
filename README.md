@@ -24,15 +24,7 @@ Clone the repository:
 ```bash
 git clone https://github.com/D0ge42/miniVim
 cd miniVim
-```
-
-Create a build directory and compile the project:
-
-```bash
-mkdir -p build/Desktop-Debug
-cd build/Desktop-Debug
-cmake ../..
-compiledb make
+bash build.sh
 ```
 
 After the build completes, run the editor with:
