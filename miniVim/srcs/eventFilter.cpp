@@ -1,13 +1,14 @@
 #include "../includes/Esc.h"
 #include "ui_mainwindow.h"
 #include <cstdio>
-#include <iostream>
+#include <cstdlib>
 #include <qcoreevent.h>
 #include <qevent.h>
 #include <qglobal.h>
 #include <QDebug>
 #include <QAction>
 #include <qnamespace.h>
+#include <qregion.h>
 
 bool Esc::eventFilter(QObject *obj, QEvent *event)
 {
@@ -51,6 +52,28 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
       return true;
     }
 
+    if (esc_mode == true && cmd_mode == true)
+    {
+      if (keyEvent->key() == Qt::Key_Return)
+      {
+        QString cmd = ui.eTextEdit->toPlainText();
+        qDebug() << cmd;
+        if (cmd == "q")
+          exit(0);
+        if (cmd == "wq")
+        {
+          QFile out;
+          out.setFileName(this->file);
+          out.open(QIODevice::Append | QIODevice::Text);
+          ui.iTextEdit->selectAll();
+          QTextStream outstream(&out);
+          out.close();
+          exit(0);
+        }
+        return true;
+      }
+    }
+
   // Handle visual mode
 
     if (keyEvent->text() == "v" && cmd_mode == false)
@@ -72,6 +95,20 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
       sel_struct->tcurs.setPosition(sel_struct->sel_end, QTextCursor::KeepAnchor);
       qDebug() << "End:" << sel_struct->sel_end;
       sel_struct->to_paste = sel_struct->tcurs.selectedText();
+
+      this->vis_mode = false;
+      this->ui.label->setText("NRM");
+      return true;
+    }
+
+    if (keyEvent->text() == "d" && vis_mode == true)
+    {
+      ui.iTextEdit->setTextCursor(sel_struct->tcurs);
+
+      sel_struct->sel_end = sel_struct->tcurs.position();
+      sel_struct->tcurs.setPosition(this->sel_struct->sel_start);
+      sel_struct->tcurs.setPosition(sel_struct->sel_end, QTextCursor::KeepAnchor);
+      sel_struct->tcurs.clearSelection();
 
       this->vis_mode = false;
       this->ui.label->setText("NRM");

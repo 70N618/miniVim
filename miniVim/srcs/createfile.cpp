@@ -15,4 +15,5 @@ void Esc::createFile()
         QString qstr = QString::fromStdString(line.toStdString());
         ui.iTextEdit->insertPlainText(qstr);
   }
+  file.close();
 }

@@ -2,6 +2,7 @@
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
+#include <qglobal.h>
 
 
 Esc::Esc(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
@@ -19,7 +20,6 @@ Esc::Esc(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
   connect(this,&Esc::insModeToggled, &Esc::toggleInsMode);
   connect(this,&Esc::visModeToggled, &Esc::toggleVisMode);
   this->sel_struct = new t_sel();
-
 }
 
 Esc::~Esc()
@@ -29,4 +29,9 @@ Esc::~Esc()
 bool Esc::getEscMode()
 {
   return this->esc_mode;
+}
+
+void Esc::setFile(const char *file)
+{
+  this->file = file;
 }

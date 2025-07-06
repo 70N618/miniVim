@@ -24,6 +24,7 @@ class Esc: public QPlainTextEdit
     Esc(MainWindow &win, Ui::MainWindow &ui, const char *file);
     ~Esc();
     bool getEscMode();
+    void setFile(const char *file);
 
     void createFile();
 
