@@ -12,6 +12,7 @@ struct t_sel
     QTextCursor tcurs;
     int sel_start;
     int sel_end;
+    QString to_paste;
 };
 
 class Esc: public QPlainTextEdit

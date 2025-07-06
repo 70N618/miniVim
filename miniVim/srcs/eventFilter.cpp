@@ -1,6 +1,7 @@
 #include "../includes/Esc.h"
 #include "ui_mainwindow.h"
 #include <cstdio>
+#include <iostream>
 #include <qcoreevent.h>
 #include <qevent.h>
 #include <qglobal.h>
@@ -49,6 +50,9 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
       emit cmdModeToggled();
       return true;
     }
+
+  // Handle visual mode
+
     if (keyEvent->text() == "v" && cmd_mode == false)
     {
       qDebug() << "Visual mode\n";
@@ -57,16 +61,18 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
       emit visModeToggled();
       return true;
     }
+
+  // Handle copy
     if (keyEvent->text() == "y" && vis_mode == true)
     {
+      ui.iTextEdit->setTextCursor(sel_struct->tcurs);
       sel_struct->sel_end = sel_struct->tcurs.position();
       sel_struct->tcurs.setPosition(this->sel_struct->sel_start);
       sel_struct->tcurs.setPosition(sel_struct->sel_end, QTextCursor::KeepAnchor);
       qDebug() << "End:" << sel_struct->sel_end;
-      this->ui.label->setText("NRM");
-      qDebug() << sel_struct->tcurs.selectedText();
-      this->ui.iTextEdit->copy();
+      sel_struct->to_paste = sel_struct->tcurs.selectedText();
       this->vis_mode = false;
+      this->ui.label->setText("NRM");
       return true;
     }
   }
@@ -104,7 +110,7 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
         sel_struct->tcurs.movePosition(QTextCursor::StartOfLine);
         break;
       case(Qt::Key_P):
-        ui.iTextEdit->paste();
+        ui.iTextEdit->insertPlainText(sel_struct->to_paste);
         break;
     }
     return true;
