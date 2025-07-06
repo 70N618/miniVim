@@ -59,13 +59,13 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
     }
     if (keyEvent->text() == "y" && vis_mode == true)
     {
-      QTextCursor curs = sel_struct->tcurs;
-      qDebug() << "Selection stopped\n";
-      sel_struct->sel_end = curs.position();
-      curs.setPosition(sel_struct->sel_end, QTextCursor::KeepAnchor);
+      sel_struct->sel_end = sel_struct->tcurs.position();
+      sel_struct->tcurs.setPosition(this->sel_struct->sel_start);
+      sel_struct->tcurs.setPosition(sel_struct->sel_end, QTextCursor::KeepAnchor);
       qDebug() << "End:" << sel_struct->sel_end;
-      qDebug() << curs.selectedText();
       this->ui.label->setText("NRM");
+      qDebug() << sel_struct->tcurs.selectedText();
+      this->ui.iTextEdit->copy();
       this->vis_mode = false;
       return true;
     }
@@ -102,6 +102,9 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
       case(Qt::Key_0):
         ui.iTextEdit->moveCursor(QTextCursor::StartOfLine);
         sel_struct->tcurs.movePosition(QTextCursor::StartOfLine);
+        break;
+      case(Qt::Key_P):
+        ui.iTextEdit->paste();
         break;
     }
     return true;
