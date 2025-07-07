@@ -1,7 +1,6 @@
 #include "../includes/Esc.h"
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
 #include <qevent.h>
 
 void Esc::createFile()
