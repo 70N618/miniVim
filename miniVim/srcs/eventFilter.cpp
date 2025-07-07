@@ -56,20 +56,32 @@ bool Esc::eventFilter(QObject *obj, QEvent *event)
     {
       if (keyEvent->key() == Qt::Key_Return)
       {
+        QFile out;
+        out.setFileName(this->file);
+        out.open(QIODevice::Truncate | QIODevice::Append | QIODevice::Text);
+        QString to_copy = ui.iTextEdit->toPlainText();
+        QTextStream outstream(&out);
         QString cmd = ui.eTextEdit->toPlainText();
         qDebug() << cmd;
+
         if (cmd == "q")
-          exit(0);
-        if (cmd == "wq")
         {
-          QFile out;
-          out.setFileName(this->file);
-          out.open(QIODevice::Append | QIODevice::Text);
-          ui.iTextEdit->selectAll();
-          QTextStream outstream(&out);
           out.close();
           exit(0);
         }
+
+        if (cmd == "wq")
+        {
+          outstream << to_copy;
+          out.close();
+          exit(0);
+        }
+
+        if (cmd == "w")
+        {
+          outstream << to_copy;
+        }
+
         return true;
       }
     }
