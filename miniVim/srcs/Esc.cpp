@@ -2,6 +2,7 @@
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
+#include <qdebug.h>
 #include <qglobal.h>
 
 
@@ -19,6 +20,7 @@ Esc::Esc(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
   connect(this,&Esc::cmdModeToggled, &Esc::toggleCmdMode);
   connect(this,&Esc::insModeToggled, &Esc::toggleInsMode);
   connect(this,&Esc::visModeToggled, &Esc::toggleVisMode);
+  qDebug() << this->file;
   this->sel_struct = new t_sel();
 }
 

@@ -53,6 +53,7 @@ class Esc: public QPlainTextEdit
     MainWindow &win;
     t_sel *sel_struct;
     const char *file;
+    QFile out;
 
 };
 
