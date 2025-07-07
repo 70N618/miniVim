@@ -28,6 +28,7 @@ class Mode: public QPlainTextEdit
     void setFile(const char *file);
 
     void createFile();
+    void deleteLine();
 
   public slots:
     void toggleEscMode();

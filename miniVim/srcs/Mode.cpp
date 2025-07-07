@@ -2,6 +2,8 @@
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
+#include <qaction.h>
+#include <QAction>
 #include <qdebug.h>
 #include <qglobal.h>
 
@@ -20,8 +22,19 @@ Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win
   connect(this,&Mode::cmdModeToggled, &Mode::toggleCmdMode);
   connect(this,&Mode::insModeToggled, &Mode::toggleInsMode);
   connect(this,&Mode::visModeToggled, &Mode::toggleVisMode);
+
+  QAction *action = new QAction("delete line");
+  action->setShortcut({QKeySequence(Qt::Key_D, Qt::Key_D)});
+  ui.iTextEdit->addAction(action);
+  connect(action, &QAction::triggered, this, &Mode::deleteLine);
+
   qDebug() << this->file;
   this->sel_struct = new t_sel();
+}
+
+void Mode::deleteLine()
+{
+  qDebug() << "Line deleted\n";
 }
 
 Mode::~Mode()

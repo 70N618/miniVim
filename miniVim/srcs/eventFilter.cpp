@@ -2,10 +2,12 @@
 #include "ui_mainwindow.h"
 #include <cstdio>
 #include <cstdlib>
+#include <qaction.h>
 #include <qcoreevent.h>
 #include <qevent.h>
 #include <qglobal.h>
 #include <QDebug>
+#include <qaction.h>
 #include <QAction>
 #include <qnamespace.h>
 #include <qregion.h>
@@ -133,8 +135,10 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
 
   if (event->type() == QEvent::KeyPress && this->esc_mode == true && this->cmd_mode == false)
   {
+
     int key = keyEvent->key();
     QTextCursor tcurs = ui.iTextEdit->textCursor();
+    qDebug() << key;
 
     switch (key)
     {
@@ -165,8 +169,13 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
       case(Qt::Key_P):
         ui.iTextEdit->insertPlainText(sel_struct->to_paste);
         break;
+      case(125):
+          ui.iTextEdit->moveCursor(QTextCursor::EndOfBlock);
+          sel_struct->tcurs.movePosition(QTextCursor::EndOfBlock);
+        break;
     }
     return true;
   }
+
   return false;
 }

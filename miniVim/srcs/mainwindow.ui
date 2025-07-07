@@ -179,16 +179,16 @@ font: 200 italic 11pt &quot;Ubuntu Sans&quot;;</string>
         </property>
         <property name="font">
          <font>
-          <family>Ubuntu Sans</family>
+          <family>URW Gothic</family>
           <pointsize>11</pointsize>
           <italic>false</italic>
-          <bold>false</bold>
+          <bold>true</bold>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(36, 31, 49);
 color: rgb(255, 255, 255);
-font: 200 11pt &quot;Ubuntu Sans&quot;;</string>
+font: 600 11pt &quot;URW Gothic&quot;;</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
