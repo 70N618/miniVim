@@ -1,9 +1,9 @@
-#include "../includes/Esc.h"
+#include "../includes/Mode.h"
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <qevent.h>
 
-void Esc::createFile()
+void Mode::createFile()
 {
   QFile file(this->file);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

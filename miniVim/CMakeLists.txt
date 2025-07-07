@@ -17,10 +17,10 @@ set(PROJECT_SOURCES
         srcs/mainwindow.cpp
         includes/mainwindow.h
         srcs/mainwindow.ui
-        srcs/Esc.cpp
-        includes/Esc.h
+        srcs/Mode.cpp
+        includes/Mode.h
         srcs/eventFilter.cpp
-        srcs/mode.cpp
+        srcs/modeTogglers.cpp
         srcs/createfile.cpp
         srcs/syntaxHighlight.cpp
         includes/SyntaxHighlight.h

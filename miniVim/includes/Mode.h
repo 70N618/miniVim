@@ -17,14 +17,14 @@ struct t_sel
     QString to_paste;
 };
 
-class Esc: public QPlainTextEdit
+class Mode: public QPlainTextEdit
 {
   Q_OBJECT
 
   public:
-    Esc(MainWindow &win, Ui::MainWindow &ui, const char *file);
-    ~Esc();
-    bool getEscMode();
+    Mode(MainWindow &win, Ui::MainWindow &ui, const char *file);
+    ~Mode();
+    bool getModeMode();
     void setFile(const char *file);
 
     void createFile();

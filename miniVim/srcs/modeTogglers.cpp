@@ -1,4 +1,4 @@
-#include "../includes/Esc.h"
+#include "../includes/Mode.h"
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
@@ -9,7 +9,7 @@
 
 // Handle ":" when esc is pressed
 
-void Esc::toggleCmdMode()
+void Mode::toggleCmdMode()
 {
   if (this->esc_mode == true)
   {
@@ -17,7 +17,7 @@ void Esc::toggleCmdMode()
   }
 }
 
-void Esc::toggleVisMode()
+void Mode::toggleVisMode()
 {
   if (this->vis_mode == true)
   {
@@ -31,7 +31,7 @@ void Esc::toggleVisMode()
 
 // SLOT Handle esc mode
 
-void Esc::toggleEscMode()
+void Mode::toggleEscMode()
 {
   if (this->esc_mode == false)
   {
@@ -57,7 +57,7 @@ void Esc::toggleEscMode()
 
 // SLOT Handle ins mode
 
-void Esc::toggleInsMode()
+void Mode::toggleInsMode()
 {
   if (this->esc_mode == true)
   {

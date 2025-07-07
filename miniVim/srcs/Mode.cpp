@@ -1,4 +1,4 @@
-#include "../includes/Esc.h"
+#include "../includes/Mode.h"
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
@@ -6,7 +6,7 @@
 #include <qglobal.h>
 
 
-Esc::Esc(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
+Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
 {
   this->esc_mode = false;
   this->ins_mode = true;
@@ -16,24 +16,24 @@ Esc::Esc(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
   ui.iTextEdit->installEventFilter(this);
   ui.eTextEdit->installEventFilter(this);
   ui.iTextEdit->setFocus();
-  connect(this,&Esc::escModeToggled, &Esc::toggleEscMode);
-  connect(this,&Esc::cmdModeToggled, &Esc::toggleCmdMode);
-  connect(this,&Esc::insModeToggled, &Esc::toggleInsMode);
-  connect(this,&Esc::visModeToggled, &Esc::toggleVisMode);
+  connect(this,&Mode::escModeToggled, &Mode::toggleEscMode);
+  connect(this,&Mode::cmdModeToggled, &Mode::toggleCmdMode);
+  connect(this,&Mode::insModeToggled, &Mode::toggleInsMode);
+  connect(this,&Mode::visModeToggled, &Mode::toggleVisMode);
   qDebug() << this->file;
   this->sel_struct = new t_sel();
 }
 
-Esc::~Esc()
+Mode::~Mode()
 {
 }
 
-bool Esc::getEscMode()
+bool Mode::getModeMode()
 {
   return this->esc_mode;
 }
 
-void Esc::setFile(const char *file)
+void Mode::setFile(const char *file)
 {
   this->file = file;
 }

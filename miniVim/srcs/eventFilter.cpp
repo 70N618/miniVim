@@ -1,4 +1,4 @@
-#include "../includes/Esc.h"
+#include "../includes/Mode.h"
 #include "ui_mainwindow.h"
 #include <cstdio>
 #include <cstdlib>
@@ -10,7 +10,7 @@
 #include <qnamespace.h>
 #include <qregion.h>
 
-bool Esc::eventFilter(QObject *obj, QEvent *event)
+bool Mode::eventFilter(QObject *obj, QEvent *event)
 {
   QKeyEvent *keyEvent;
   keyEvent = static_cast<QKeyEvent *>(event);
