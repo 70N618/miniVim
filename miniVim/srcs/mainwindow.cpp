@@ -6,6 +6,15 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+  QFont font;
+  font.setFamily("Courier");
+  font.setFixedPitch(true);
+  font.setPointSize(10);
+
+  ui->iTextEdit->setFont(font);
+
+  sh = new SyntaxHighlight(ui->iTextEdit->document());
 }
 
 MainWindow::~MainWindow()

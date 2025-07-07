@@ -1,6 +1,7 @@
 #ifndef ESC_H
 #define ESC_H
 
+#include "SyntaxHighlight.h"
 #include "mainwindow.h"
 #include <qcoreevent.h>
 #include <qevent.h>

@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "SyntaxHighlight.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -18,11 +19,9 @@ class MainWindow : public QMainWindow
     ~MainWindow();
     Ui::MainWindow *getUi();
 
-  // protected:
-  //   void keyPressEvent(QKeyEvent *event) override;
-
   private:
     Ui::MainWindow *ui;
+    SyntaxHighlight *sh;
 };
 
 #endif // MAINWINDOW_H

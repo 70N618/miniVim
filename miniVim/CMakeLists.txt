@@ -22,6 +22,8 @@ set(PROJECT_SOURCES
         srcs/eventFilter.cpp
         srcs/mode.cpp
         srcs/createfile.cpp
+        srcs/syntaxHighlight.cpp
+        includes/SyntaxHighlight.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
