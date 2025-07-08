@@ -1,7 +1,9 @@
+#include <chrono>
 #include "../includes/Mode.h"
 #include "ui_mainwindow.h"
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
 #include <qaction.h>
 #include <qcoreevent.h>
 #include <qevent.h>
@@ -11,6 +13,7 @@
 #include <QAction>
 #include <qnamespace.h>
 #include <qregion.h>
+#include <qtimer.h>
 
 bool Mode::eventFilter(QObject *obj, QEvent *event)
 {
@@ -67,6 +70,7 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
           exit(0);
         }
 
+
         if (cmd == "wq" || cmd == "w")
         {
           out.setFileName(this->file);
@@ -93,6 +97,13 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
 
     if (keyEvent->text() == "v" && cmd_mode == false)
     {
+      if (vis_mode == true)
+      {
+        qDebug() << "Visual mode disabled\n";
+        this->vis_mode = false;
+        this->ui.label->setText("NRM");
+        return true;
+      }
       qDebug() << "Visual mode\n";
       this->ui.label->setText("Vis");
       this->vis_mode = true;
@@ -100,7 +111,7 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
       return true;
     }
 
-  // Handle copy
+    // Handle copy
     if (keyEvent->text() == "y" && vis_mode == true)
     {
       ui.iTextEdit->setTextCursor(sel_struct->tcurs);
@@ -131,11 +142,17 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
     }
   }
 
+
+  if (event->type() == QEvent::KeyPress && this->ins_mode == true)
+  {
+    qDebug() << event;
+    // Se viene premuta una parentesi graffa e poi return --> indent
+  }
+
   // Handle Esc shortcuts
 
   if (event->type() == QEvent::KeyPress && this->esc_mode == true && this->cmd_mode == false)
   {
-
     int key = keyEvent->key();
     QTextCursor tcurs = ui.iTextEdit->textCursor();
     qDebug() << key;
@@ -169,10 +186,33 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
       case(Qt::Key_P):
         ui.iTextEdit->insertPlainText(sel_struct->to_paste);
         break;
-      case(125):
-          ui.iTextEdit->moveCursor(QTextCursor::EndOfBlock);
-          sel_struct->tcurs.movePosition(QTextCursor::EndOfBlock);
+      case(Qt::Key_B):
+        ui.iTextEdit->moveCursor(QTextCursor::PreviousWord);
+        sel_struct->tcurs.movePosition(QTextCursor::PreviousWord);
         break;
+      case(Qt::Key_W):
+        ui.iTextEdit->moveCursor(QTextCursor::WordRight);
+        sel_struct->tcurs.movePosition(QTextCursor::WordRight);
+        break;
+      case(Qt::Key_U):
+        ui.iTextEdit->undo();
+        ui.iTextEdit->moveCursor(QTextCursor::PreviousBlock);
+        sel_struct->tcurs.movePosition(QTextCursor::PreviousBlock);
+        break;
+      case(Qt::Key_D):
+        if (count == 0 || count %2 != 0)
+        {
+          if (timer->isValid() == false)
+            timer->start();
+          count++;
+        }
+        if (count %2 == 0)
+        {
+          deleteLine();
+          count = 0;
+          timer->invalidate();
+        }
+        return true;
     }
     return true;
   }

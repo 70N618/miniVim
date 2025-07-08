@@ -4,8 +4,12 @@
 #include <iostream>
 #include <qaction.h>
 #include <QAction>
+#include <QTimer>
 #include <qdebug.h>
+#include <qelapsedtimer.h>
 #include <qglobal.h>
+#include <qnamespace.h>
+#include <qobjectdefs.h>
 
 
 Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
@@ -15,6 +19,7 @@ Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win
   this->cmd_mode = false;
   this->vis_mode = true;
   this->file = file;
+  this->count = 0;
   ui.iTextEdit->installEventFilter(this);
   ui.eTextEdit->installEventFilter(this);
   ui.iTextEdit->setFocus();
@@ -22,19 +27,18 @@ Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win
   connect(this,&Mode::cmdModeToggled, &Mode::toggleCmdMode);
   connect(this,&Mode::insModeToggled, &Mode::toggleInsMode);
   connect(this,&Mode::visModeToggled, &Mode::toggleVisMode);
-
-  QAction *action = new QAction("delete line");
-  action->setShortcut({QKeySequence(Qt::Key_D, Qt::Key_D)});
-  ui.iTextEdit->addAction(action);
-  connect(action, &QAction::triggered, this, &Mode::deleteLine);
-
   qDebug() << this->file;
   this->sel_struct = new t_sel();
+  this->timer = new QElapsedTimer();
 }
 
 void Mode::deleteLine()
 {
-  qDebug() << "Line deleted\n";
+  qDebug() << timer->elapsed();
+  if (timer->elapsed() <= 1500)
+  {
+    qDebug() << "line deleted\n";
+  }
 }
 
 Mode::~Mode()

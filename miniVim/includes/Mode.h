@@ -8,6 +8,7 @@
 #include <qmainwindow.h>
 #include <qplaintextedit.h>
 #include <qtextcursor.h>
+#include <QElapsedTimer>
 
 struct t_sel
 {
@@ -56,6 +57,8 @@ class Mode: public QPlainTextEdit
     t_sel *sel_struct;
     const char *file;
     QFile out;
+    QElapsedTimer *timer;
+    int count;
 
 };
 

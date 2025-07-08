@@ -36,7 +36,6 @@ void Mode::toggleEscMode()
   if (this->esc_mode == false)
   {
     this->esc_mode = true;
-    this->ui.iTextEdit->setCursor(Qt::PointingHandCursor);
     qDebug() << "[ESC MODE ENABLED]\n";
   }
   else if (this->esc_mode == true && this->cmd_mode == true)

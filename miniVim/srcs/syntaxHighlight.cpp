@@ -1,5 +1,6 @@
 #include "../includes/SyntaxHighlight.h"
 #include <qnamespace.h>
+#include <qstringliteral.h>
 
 SyntaxHighlight::SyntaxHighlight(QTextDocument *parent): QSyntaxHighlighter(parent)
 {
@@ -11,6 +12,7 @@ SyntaxHighlight::SyntaxHighlight(QTextDocument *parent): QSyntaxHighlighter(pare
     keywordFormat.setFontWeight(QFont::Bold);
 
     // Here we just build up our keywords array of string.
+
 
     const QString keywordPatterns[] =
     {
@@ -57,17 +59,41 @@ SyntaxHighlight::SyntaxHighlight(QTextDocument *parent): QSyntaxHighlighter(pare
     rule.format = quotationFormat;
     highlightingRules.append(rule);
 
-    // Match any function that has
-    // non word char before it \b
-    // from a-z A-Z 0-9 and _ after that
-    // + matches one or more previous tokens
-    // (?=\\()) -> positive look ahead. we're checking after the expression
-    // inside the square brackets, there is an open parenthesis, but we're not
-    // including it
+    /* Match any function that has
+     * non word char before it \b
+     * from a-z A-Z 0-9 and _ after that
+     * + matches one or more previous tokens
+     * (?=\\()) -> positive look ahead. we're checking after the expression
+     * inside the square brackets, there is an open parenthesis, but we're not
+     * including it */
 
     functionFormat.setFontItalic(true);
     functionFormat.setForeground(Qt::yellow);
     rule.pattern = QRegularExpression(QStringLiteral("\\b[A-Za-z0-9_]+(?=\\()"));
+    rule.format = functionFormat;
+    highlightingRules.append(rule);
+
+
+    /* Angle brackets format
+     * Detect any
+     * Detect any word
+     * + one or more
+     * \\. h
+     * 0 or 1 of prev token
+     * match  0 or more p for (hpp)
+     * match closed angle bracket */
+
+    angleBracketsFormat.setFontItalic(true);
+    functionFormat.setForeground(Qt::darkGreen);
+    rule.pattern = QRegularExpression(QStringLiteral("<[A-Za-z0-9]+(\\.h)?p*>"));
+    rule.format = functionFormat;
+    highlightingRules.append(rule);
+
+    // #include syntax highlight
+
+    includeFormat.setFontItalic(true);
+    functionFormat.setForeground(Qt::darkRed);
+    rule.pattern = QRegularExpression(QStringLiteral("#[A-Za-z0-9]+ "));
     rule.format = functionFormat;
     highlightingRules.append(rule);
 
