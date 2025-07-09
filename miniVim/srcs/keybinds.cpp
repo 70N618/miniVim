@@ -14,7 +14,13 @@
 #include <qregion.h>
 #include <qtimer.h>
 
-// Handle Esc shortcuts
+/* @brief: Handles Keybinds when in NRM mode.
+ * Once a keybind is handled it must return true.
+ * This way the event filter will know the event was handled.
+ *
+ * @params: takes a QEvent which must be of type KeyPress.
+ *
+ * @return: true if even has handled else false. */
 
 bool Mode::keyBinds(QEvent *event)
 {
@@ -87,6 +93,7 @@ bool Mode::keyBinds(QEvent *event)
           dCount^=dCount;
           dTimer->invalidate();
         }
+        break;
       case(Qt::Key_Y):
         if (yCount == 0 || yCount %2 != 0)
         {
@@ -100,10 +107,10 @@ bool Mode::keyBinds(QEvent *event)
           yCount^=yCount;
           yTimer->invalidate();
         }
-        return true;
+        break;
     }
     return true;
   }
-
   return false;
 }
+
