@@ -24,6 +24,7 @@ set(PROJECT_SOURCES
         srcs/createfile.cpp
         srcs/syntaxHighlight.cpp
         includes/SyntaxHighlight.h
+        srcs/shortcuts.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

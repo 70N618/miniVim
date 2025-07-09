@@ -22,7 +22,6 @@ void Mode::toggleVisMode()
   if (this->vis_mode == true)
   {
     qDebug() << "Selection started\n";
-    sel_struct->tcurs = this->ui.iTextEdit->textCursor();
     this->sel_struct->sel_start = sel_struct->tcurs.anchor();
     sel_struct->tcurs.setPosition(this->sel_struct->sel_start);
     qDebug() << "Start:" << sel_struct->sel_start;

@@ -1,4 +1,3 @@
-#include <chrono>
 #include "../includes/Mode.h"
 #include "ui_mainwindow.h"
 #include <cstdio>
@@ -126,20 +125,6 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
       this->ui.label->setText("NRM");
       return true;
     }
-
-    if (keyEvent->text() == "d" && vis_mode == true)
-    {
-      ui.iTextEdit->setTextCursor(sel_struct->tcurs);
-
-      sel_struct->sel_end = sel_struct->tcurs.position();
-      sel_struct->tcurs.setPosition(this->sel_struct->sel_start);
-      sel_struct->tcurs.setPosition(sel_struct->sel_end, QTextCursor::KeepAnchor);
-      sel_struct->tcurs.clearSelection();
-
-      this->vis_mode = false;
-      this->ui.label->setText("NRM");
-      return true;
-    }
   }
 
 
@@ -200,17 +185,30 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
         sel_struct->tcurs.movePosition(QTextCursor::PreviousBlock);
         break;
       case(Qt::Key_D):
-        if (count == 0 || count %2 != 0)
+        if (dCount == 0 || dCount %2 != 0)
         {
-          if (timer->isValid() == false)
-            timer->start();
-          count++;
+          if (dTimer->isValid() == false)
+            dTimer->start();
+          dCount++;
         }
-        if (count %2 == 0)
+        if (dCount %2 == 0)
         {
           deleteLine();
-          count = 0;
-          timer->invalidate();
+          dCount^=dCount;
+          dTimer->invalidate();
+        }
+      case(Qt::Key_Y):
+        if (yCount == 0 || yCount %2 != 0)
+        {
+          if (yTimer->isValid() == false)
+            yTimer->start();
+          yCount++;
+        }
+        if (yCount %2 == 0)
+        {
+          copyLine();
+          yCount^=yCount;
+          yTimer->invalidate();
         }
         return true;
     }

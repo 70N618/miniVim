@@ -4,6 +4,7 @@
 #include "SyntaxHighlight.h"
 #include "mainwindow.h"
 #include <qcoreevent.h>
+#include <qelapsedtimer.h>
 #include <qevent.h>
 #include <qmainwindow.h>
 #include <qplaintextedit.h>
@@ -30,6 +31,7 @@ class Mode: public QPlainTextEdit
 
     void createFile();
     void deleteLine();
+    void copyLine();
 
   public slots:
     void toggleEscMode();
@@ -57,8 +59,10 @@ class Mode: public QPlainTextEdit
     t_sel *sel_struct;
     const char *file;
     QFile out;
-    QElapsedTimer *timer;
-    int count;
+    int dCount;
+    int yCount;
+    QElapsedTimer *dTimer;
+    QElapsedTimer *yTimer;
 
 };
 

@@ -1,7 +1,6 @@
 #include "../includes/Mode.h"
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
 #include <qaction.h>
 #include <QAction>
 #include <QTimer>
@@ -19,7 +18,8 @@ Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win
   this->cmd_mode = false;
   this->vis_mode = true;
   this->file = file;
-  this->count = 0;
+  this->dCount = 0;
+  this->yCount = 0;
   ui.iTextEdit->installEventFilter(this);
   ui.eTextEdit->installEventFilter(this);
   ui.iTextEdit->setFocus();
@@ -29,16 +29,9 @@ Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win
   connect(this,&Mode::visModeToggled, &Mode::toggleVisMode);
   qDebug() << this->file;
   this->sel_struct = new t_sel();
-  this->timer = new QElapsedTimer();
-}
-
-void Mode::deleteLine()
-{
-  qDebug() << timer->elapsed();
-  if (timer->elapsed() <= 1500)
-  {
-    qDebug() << "line deleted\n";
-  }
+  sel_struct->tcurs = this->ui.iTextEdit->textCursor();
+  this->dTimer = new QElapsedTimer();
+  this->yTimer = new QElapsedTimer();
 }
 
 Mode::~Mode()
