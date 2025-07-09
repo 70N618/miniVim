@@ -13,25 +13,34 @@
 
 Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
 {
+  // Initialize variables
+
   this->esc_mode = false;
   this->ins_mode = true;
   this->cmd_mode = false;
-  this->vis_mode = true;
+  this->vis_mode = false;
   this->file = file;
   this->dCount = 0;
   this->yCount = 0;
+  this->nl = false;
+  this->sel_struct = new t_sel();
+  this->dTimer = new QElapsedTimer();
+  this->yTimer = new QElapsedTimer();
+  this->sel_struct->tcurs = this->ui.iTextEdit->textCursor();
+
+  // Install EventFilter on both insert and edit QTextEdit
+
   ui.iTextEdit->installEventFilter(this);
   ui.eTextEdit->installEventFilter(this);
   ui.iTextEdit->setFocus();
-  connect(this,&Mode::escModeToggled, &Mode::toggleEscMode);
-  connect(this,&Mode::cmdModeToggled, &Mode::toggleCmdMode);
-  connect(this,&Mode::insModeToggled, &Mode::toggleInsMode);
-  connect(this,&Mode::visModeToggled, &Mode::toggleVisMode);
-  qDebug() << this->file;
-  this->sel_struct = new t_sel();
-  sel_struct->tcurs = this->ui.iTextEdit->textCursor();
-  this->dTimer = new QElapsedTimer();
-  this->yTimer = new QElapsedTimer();
+
+
+  // Connect signals with slots
+
+  connect(this,&Mode::sigNormMode, &Mode::toggleEscMode);
+  connect(this,&Mode::sigCmdMode, &Mode::toggleCmdMode);
+  connect(this,&Mode::sigInsMode, &Mode::toggleInsMode);
+  connect(this,&Mode::sigVisMode, &Mode::toggleVisMode);
 }
 
 Mode::~Mode()

@@ -25,6 +25,10 @@ set(PROJECT_SOURCES
         srcs/syntaxHighlight.cpp
         includes/SyntaxHighlight.h
         srcs/shortcuts.cpp
+        srcs/keybinds.cpp
+        srcs/triggers.cpp
+        srcs/vis_mode.cpp
+        srcs/cmd_mode.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

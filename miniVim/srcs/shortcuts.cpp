@@ -35,6 +35,7 @@ void Mode::deleteLine()
     // Remove new line
 
     c.deletePreviousChar();
+    c.movePosition(QTextCursor::StartOfLine);
 
     ui.iTextEdit->setTextCursor(c);
 
@@ -50,16 +51,20 @@ void Mode::copyLine()
   {
     QTextCursor c = sel_struct->tcurs;
 
-    // Set cursor to delete current line
+    // Set cursor to copy current line
 
+    int old_pos = c.position();
     c.movePosition(QTextCursor::StartOfLine);
     c.movePosition(QTextCursor::EndOfLine,QTextCursor::KeepAnchor);
 
     if (c.hasSelection())
     {
       sel_struct->to_paste = c.selectedText() + '\n';
+      nl = true;
+      c.clearSelection();
       qDebug() << "Line yanked: " << sel_struct->to_paste;
     }
+      c.setPosition(old_pos);
 
     ui.iTextEdit->setTextCursor(c);
 

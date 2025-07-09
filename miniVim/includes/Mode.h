@@ -41,12 +41,18 @@ class Mode: public QPlainTextEdit
 
   protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;
+    bool triggerEsc(QEvent *event);
+    bool triggerIns(QEvent *event);
+    bool cmdHandler(QEvent *event);
+    bool visMode(QEvent *event);
+    bool keyBinds(QEvent *event);
 
   signals:
-    void escModeToggled(QEvent *event);
-    void cmdModeToggled();
-    void insModeToggled();
-    void visModeToggled();
+    void sigNormMode(QEvent *event);
+    void sigCmdMode();
+    void sigInsMode();
+    void sigVisMode();
+
 
   private:
     bool esc_mode;
@@ -63,6 +69,7 @@ class Mode: public QPlainTextEdit
     int yCount;
     QElapsedTimer *dTimer;
     QElapsedTimer *yTimer;
+    bool nl;
 
 };
 

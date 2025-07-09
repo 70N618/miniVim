@@ -2,6 +2,7 @@
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QApplication>
+#include <qdebug.h>
 
 int main(int argc, char **argv)
 {
