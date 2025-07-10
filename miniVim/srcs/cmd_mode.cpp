@@ -18,15 +18,10 @@
  * @Paramas: QEvent
  * @return: True or False depending if the event has handled */
 
-bool Mode::cmdHandler(QEvent *event)
+bool Mode::cmdHandler(QKeyEvent *keyEvent)
 {
-  QKeyEvent *keyEvent;
-  keyEvent = static_cast<QKeyEvent *>(event);
 
-  if (event->type() != QEvent::KeyPress)
-    return false;
-
-  if (event->type() == QEvent::KeyPress && esc_mode == true)
+  if (esc_mode == true)
   {
     if (keyEvent->text() == ":")
     {
@@ -47,8 +42,10 @@ bool Mode::cmdHandler(QEvent *event)
 
       if (cmd == "q")
       {
+        delete this->dTimer;
+        delete this->yTimer;
         out.close();
-        exit(0);
+        QApplication::quit();
       }
 
 

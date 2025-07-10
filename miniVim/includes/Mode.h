@@ -10,6 +10,7 @@
 #include <qplaintextedit.h>
 #include <qtextcursor.h>
 #include <QElapsedTimer>
+#include <QFile>
 
 struct t_sel
 {
@@ -41,14 +42,14 @@ class Mode: public QPlainTextEdit
 
   protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;
-    bool triggerEsc(QEvent *event);
-    bool triggerIns(QEvent *event);
-    bool cmdHandler(QEvent *event);
-    bool visMode(QEvent *event);
-    bool keyBinds(QEvent *event);
+    bool triggerEsc(QKeyEvent *keyEvent);
+    bool triggerIns(QKeyEvent *keyEvent);
+    bool cmdHandler(QKeyEvent *keyEvent);
+    bool visMode(QKeyEvent *keyEvent);
+    bool keyBinds(QKeyEvent *keyEvent);
 
   signals:
-    void sigNormMode(QEvent *event);
+    void sigNormMode();
     void sigCmdMode();
     void sigInsMode();
     void sigVisMode();

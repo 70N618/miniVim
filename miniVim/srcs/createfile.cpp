@@ -12,12 +12,7 @@ void Mode::createFile()
   QFile file(this->file);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
-  while (!file.atEnd())
-  {
-        QByteArray line = file.readLine();
-        QString qstr = QString::fromStdString(line.toStdString());
-        ui.iTextEdit->insertPlainText(qstr);
-  }
+  ui.iTextEdit->insertPlainText(QString::fromUtf8(file.readAll()));
   sel_struct->tcurs.setPosition(QTextCursor::Start);
   ui.iTextEdit->setTextCursor(sel_struct->tcurs);
   file.close();

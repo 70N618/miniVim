@@ -14,34 +14,26 @@
 #include <qregion.h>
 #include <qtimer.h>
 
-bool Mode::triggerEsc(QEvent *event)
+bool Mode::triggerEsc(QKeyEvent *keyEvent)
 {
 
   // Trigger ESC Mode
 
-  QKeyEvent *keyEvent;
-  keyEvent = static_cast<QKeyEvent *>(event);
-
-  if (event->type() == QEvent::KeyPress)
-  {
-    if (keyEvent->key() == Qt::Key_Escape)
+  if (keyEvent->key() == Qt::Key_Escape)
     {
       qDebug() << "Key Esc pressed";
       this->ui.label->setText("NRM");
-      emit sigNormMode(event);
+      emit sigNormMode();
       return true;
     }
-  }
   return false;
 }
 
 // Trigger Ins mode
 
-bool Mode::triggerIns(QEvent *event)
+bool Mode::triggerIns(QKeyEvent *keyEvent)
 {
-  QKeyEvent *keyEvent;
-  keyEvent = static_cast<QKeyEvent *>(event);
-  if (event->type() == QEvent::KeyPress && esc_mode == true && cmd_mode == false)
+  if (esc_mode == true && cmd_mode == false)
   {
     if (keyEvent->text() == "i")
     {

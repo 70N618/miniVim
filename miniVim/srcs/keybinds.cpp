@@ -22,12 +22,10 @@
  *
  * @return: true if even has handled else false. */
 
-bool Mode::keyBinds(QEvent *event)
+bool Mode::keyBinds(QKeyEvent *keyEvent)
 {
-  QKeyEvent *keyEvent;
-  keyEvent = static_cast<QKeyEvent *>(event);
 
-  if (event->type() == QEvent::KeyPress && this->esc_mode == true && this->cmd_mode == false)
+  if (this->esc_mode == true && this->cmd_mode == false)
   {
     int key = keyEvent->key();
     QTextCursor tcurs = ui.iTextEdit->textCursor();

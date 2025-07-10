@@ -18,16 +18,8 @@
  * @Paramas: QEvent
  * @return: True or False depending if the event has handled */
 
-bool Mode::visMode(QEvent *event)
+bool Mode::visMode(QKeyEvent *keyEvent)
 {
-  QKeyEvent *keyEvent;
-  keyEvent = static_cast<QKeyEvent *>(event);
-
-  // If event is not a keypress event we're not interested.
-
-  if (event->type() != QEvent::KeyPress)
-    return false;
-
   if (keyEvent->text() == "v" && cmd_mode == false)
   {
     // If v is pressed and visual mode is enabled

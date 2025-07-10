@@ -1,5 +1,7 @@
 #include "../includes/Mode.h"
+#include <qevent.h>
 #include <qglobal.h>
+#include <QDebug>
 
 /* @brief: overrided function of QPlainTextEdit
  * This is the core of event handling.
@@ -15,15 +17,29 @@
 
 bool Mode::eventFilter(QObject *obj, QEvent *event)
 {
-  if (triggerIns(event) == true)
+  if (event->type() != QEvent::KeyPress)
+        return false;
+
+  // After this check we're safe to static_cast to a QKeyEvent
+
+  QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+
+  if (!keyEvent)
+  {
+      qWarning() << "Warning: Event marked as KeyPress is not a QKeyEvent!";
+      return false;
+  }
+
+  if (cmdHandler(keyEvent) == true)
     return true;
-  if (triggerEsc(event) == true)
+  if (triggerIns(keyEvent) == true)
     return true;
-  if (visMode(event) == true)
+  if (triggerEsc(keyEvent) == true)
     return true;
-  if (keyBinds(event) == true)
+  if (visMode(keyEvent) == true)
     return true;
-  if (cmdHandler(event) == true)
+  if (keyBinds(keyEvent) == true)
     return true;
+
   return false;
 }

@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
   public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    SyntaxHighlight *getSh();
     Ui::MainWindow *getUi();
 
   private:
