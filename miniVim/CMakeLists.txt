@@ -29,6 +29,7 @@ set(PROJECT_SOURCES
         srcs/triggers.cpp
         srcs/vis_mode.cpp
         srcs/cmd_mode.cpp
+        srcs/indent.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

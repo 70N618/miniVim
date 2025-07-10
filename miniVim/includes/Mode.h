@@ -47,6 +47,7 @@ class Mode: public QPlainTextEdit
     bool cmdHandler(QKeyEvent *keyEvent);
     bool visMode(QKeyEvent *keyEvent);
     bool keyBinds(QKeyEvent *keyEvent);
+    bool indent(QKeyEvent *ke, char c);
 
   signals:
     void sigNormMode();
@@ -71,6 +72,8 @@ class Mode: public QPlainTextEdit
     QElapsedTimer *dTimer;
     QElapsedTimer *yTimer;
     bool nl;
+    char last_char;
+    int ind_flag;
 
 };
 

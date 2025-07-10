@@ -8,14 +8,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 {
   ui->setupUi(this);
   sh = new SyntaxHighlight(ui->iTextEdit->document());
-  this->setAttribute(Qt::WA_DeleteOnClose);
 }
 
 MainWindow::~MainWindow()
 {
   delete sh;
   delete ui;
-  qDebug() << "Called\n";
 }
 
 Ui::MainWindow *MainWindow::getUi()

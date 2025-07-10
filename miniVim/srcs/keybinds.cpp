@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <qaction.h>
 #include <QAction>
+#include <qlogging.h>
 #include <qnamespace.h>
 #include <qregion.h>
 #include <qtimer.h>
@@ -24,6 +25,21 @@
 
 bool Mode::keyBinds(QKeyEvent *keyEvent)
 {
+
+  // Handle indent when { is pressed and enter is pressed
+
+  if (this->ins_mode == true)
+  {
+    last_char = (char)keyEvent->key();
+    printf("Last char = %c\n", last_char);
+    qDebug() <<  keyEvent->key();
+    char c = last_char;
+    if ((last_char == '{' || last_char == '}') && keyEvent->key() == 123)
+    {
+      qDebug() << "IN\n";
+      indent(keyEvent,c );
+    }
+  }
 
   if (this->esc_mode == true && this->cmd_mode == false)
   {

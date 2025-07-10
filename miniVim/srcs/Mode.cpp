@@ -12,7 +12,6 @@
 #include <qnamespace.h>
 #include <qobjectdefs.h>
 
-
 Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win)
 {
   // Initialize variables
@@ -25,6 +24,7 @@ Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win
   this->dCount = 0;
   this->yCount = 0;
   this->nl = false;
+  this->ind_flag = 1;
   this->sel_struct = new t_sel();
   this->dTimer = new QElapsedTimer();
   this->yTimer = new QElapsedTimer();
@@ -47,7 +47,6 @@ Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win
 
 Mode::~Mode()
 {
-    delete &ui;
 }
 
 bool Mode::getModeMode()

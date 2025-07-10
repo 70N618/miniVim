@@ -30,16 +30,10 @@ bool Mode::eventFilter(QObject *obj, QEvent *event)
       return false;
   }
 
-  if (cmdHandler(keyEvent) == true)
-    return true;
-  if (triggerIns(keyEvent) == true)
-    return true;
-  if (triggerEsc(keyEvent) == true)
-    return true;
-  if (visMode(keyEvent) == true)
-    return true;
-  if (keyBinds(keyEvent) == true)
-    return true;
-
+  if (cmdHandler(keyEvent)) return true;
+  if (triggerIns(keyEvent)) return true;
+  if (triggerEsc(keyEvent)) return true;
+  if (visMode(keyEvent)) return true;
+  if (keyBinds(keyEvent)) return true;
   return false;
 }
