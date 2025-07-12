@@ -2,18 +2,34 @@
 #include "ui_mainwindow.h"
 #include <qevent.h>
 #include <qlogging.h>
+#include <qtextcursor.h>
 
-bool Mode::indent(QKeyEvent *ke, char c)
+bool Mode::indent(QKeyEvent *ke)
 {
-  if (c == '{')
+  // Move cursor up one line and get last char.
+
+  QTextCursor cs = sel_struct->tcurs;
+  int cbind = 0;
+
+  QString prev = cs.block().text().trimmed();
+  qDebug() << "Prev: " << prev;
+  qDebug() << "Ends with: " << prev.endsWith('{');
+
+  if (prev.endsWith('{'))
     this->ind_flag++;
-  else if (c == '}')
+
+  else if (prev.endsWith('}'))
     this->ind_flag--;
-  if (this->ind_flag < 1)
-    ind_flag = 1;
-  QTextBlockFormat fmt = QTextBlockFormat();
-  fmt.setTextIndent(this->ind_flag * 40);
-  sel_struct->tcurs.mergeBlockFormat(fmt);
+
+  if (this->ind_flag < 0)
+    this->ind_flag = 0;
+
+  cs.insertText("\n");
+  for (int i = 0; i < this->ind_flag; ++i)
+  {
+    cs.insertText("\t");
+  }
+
   return true;
 }
 

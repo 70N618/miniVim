@@ -133,7 +133,7 @@ color: rgb(255, 255, 255);</string>
           <family>URW Gothic</family>
           <pointsize>11</pointsize>
           <italic>false</italic>
-          <bold>true</bold>
+          <fontweight>DemiBold</fontweight>
          </font>
         </property>
         <property name="styleSheet">
@@ -180,16 +180,16 @@ color: rgb(255, 255, 255);</string>
         </property>
         <property name="font">
          <font>
-          <family>URW Gothic</family>
+          <family>BigBlueTerm437 Nerd Font</family>
           <pointsize>11</pointsize>
           <italic>false</italic>
-          <bold>true</bold>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(36, 31, 49);
-color: rgb(255, 255, 255);
-font: 600 11pt &quot;URW Gothic&quot;;</string>
+         <string notr="true">background-color: rgb(0, 0, 0);
+font: 11pt &quot;BigBlueTerm437 Nerd Font&quot;;
+color: rgb(255, 255, 255);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>

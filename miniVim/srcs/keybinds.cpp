@@ -30,16 +30,22 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
 
   if (this->ins_mode == true)
   {
-    last_char = (char)keyEvent->key();
-    printf("Last char = %c\n", last_char);
-    qDebug() <<  keyEvent->key();
-    char c = last_char;
-    if ((last_char == '{' || last_char == '}') && keyEvent->key() == 123)
+    qDebug() << "IND: " << this->ind_flag;
+    if (keyEvent->text() == '}')
     {
-      qDebug() << "IN\n";
-      indent(keyEvent,c );
+      sel_struct->tcurs.movePosition(QTextCursor::Left);
+      sel_struct->tcurs.deleteChar();
+      goto there;
+    }
+    if (keyEvent->key() == Qt::Key_Return)
+    {
+      QTextCursor cs = sel_struct->tcurs;
+      if ((cs.block().text().endsWith('{') == true || cs.block().text().endsWith('}') == true) || this->ind_flag > 0)
+        return indent(keyEvent);
     }
   }
+
+      there:
 
   if (this->esc_mode == true && this->cmd_mode == false)
   {
@@ -93,6 +99,17 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
       case(Qt::Key_U):
         ui.iTextEdit->undo();
         ui.iTextEdit->setTextCursor(sel_struct->tcurs);
+        break;
+      case(Qt::Key_O):
+        ui.iTextEdit->moveCursor(QTextCursor::EndOfLine);
+        ui.iTextEdit->insertPlainText("\n");
+        for (int i = 0; i < this->ind_flag; ++i)
+        {
+          sel_struct->tcurs.insertText("\t");
+        }
+        this->esc_mode = false;
+        this->ins_mode = true;
+        this->ui.label->setText("INS");
         break;
       case(Qt::Key_D):
         if (dCount == 0 || dCount %2 != 0)

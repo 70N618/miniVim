@@ -48,7 +48,6 @@ bool Mode::cmdHandler(QKeyEvent *keyEvent)
         QApplication::quit();
       }
 
-
       if (cmd == "wq" || cmd == "w")
       {
         out.setFileName(this->file);
