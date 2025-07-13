@@ -13,6 +13,7 @@
 #include <qlogging.h>
 #include <qnamespace.h>
 #include <qregion.h>
+#include <qtextcursor.h>
 #include <qtimer.h>
 
 /* @brief: Handles Keybinds when in NRM mode.
@@ -25,27 +26,43 @@
 
 bool Mode::keyBinds(QKeyEvent *keyEvent)
 {
+if (this->ins_mode == true)
+{
+    QTextCursor cs = ui.iTextEdit->textCursor();
 
-  // Handle indent when { is pressed and enter is pressed
+    int base_indent = ind_flag;
 
-  if (this->ins_mode == true)
-  {
-    qDebug() << "IND: " << this->ind_flag;
-    if (keyEvent->text() == '}')
+    if (keyEvent->text() == '{')
     {
-      sel_struct->tcurs.movePosition(QTextCursor::Left);
-      sel_struct->tcurs.deleteChar();
-      goto there;
-    }
-    if (keyEvent->key() == Qt::Key_Return)
-    {
-      QTextCursor cs = sel_struct->tcurs;
-      if ((cs.block().text().endsWith('{') == true || cs.block().text().endsWith('}') == true) || this->ind_flag > 0)
-        return indent(keyEvent);
+      // Opening line
+
+      for (int i = 1; i < base_indent; ++i)
+            cs.insertText("\t");
+      cs.insertText("{\n");
+
+      // Inner line
+
+      ind_flag++;
+      for (int i = 0; i < ind_flag; ++i)
+          cs.insertText("\t");
+      cs.insertText("\n");
+
+      // Closing line
+
+      for (int i = 0; i < base_indent; ++i)
+          cs.insertText("\t");
+      cs.insertText("}");
+
+      // Move cursor to the inner blank line
+
+      cs.movePosition(QTextCursor::Up);
+      cs.movePosition(QTextCursor::EndOfLine);
+
+      ui.iTextEdit->setTextCursor(cs);
+
+      return true;
     }
   }
-
-      there:
 
   if (this->esc_mode == true && this->cmd_mode == false)
   {
@@ -57,27 +74,21 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
     {
       case(Qt::Key_H):
         ui.iTextEdit->moveCursor(QTextCursor::Left);
-        sel_struct->tcurs.movePosition(QTextCursor::Left);
         break;
       case(Qt::Key_J):
         ui.iTextEdit->moveCursor(QTextCursor::Down);
-        sel_struct->tcurs.movePosition(QTextCursor::Down);
         break;
       case(Qt::Key_K):
         ui.iTextEdit->moveCursor(QTextCursor::Up);
-        sel_struct->tcurs.movePosition(QTextCursor::Up);
         break;
       case(Qt::Key_L):
         ui.iTextEdit->moveCursor(QTextCursor::Right);
-        sel_struct->tcurs.movePosition(QTextCursor::Right);
         break;
       case(Qt::Key_Dollar):
         ui.iTextEdit->moveCursor(QTextCursor::EndOfLine);
-        sel_struct->tcurs.movePosition(QTextCursor::EndOfLine);
         break;
       case(Qt::Key_0):
         ui.iTextEdit->moveCursor(QTextCursor::StartOfLine);
-        sel_struct->tcurs.movePosition(QTextCursor::StartOfLine);
         break;
       case(Qt::Key_P):
         if (nl)
@@ -90,11 +101,9 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
         break;
       case(Qt::Key_B):
         ui.iTextEdit->moveCursor(QTextCursor::PreviousWord);
-        sel_struct->tcurs.movePosition(QTextCursor::PreviousWord);
         break;
       case(Qt::Key_W):
         ui.iTextEdit->moveCursor(QTextCursor::WordRight);
-        sel_struct->tcurs.movePosition(QTextCursor::WordRight);
         break;
       case(Qt::Key_U):
         ui.iTextEdit->undo();
