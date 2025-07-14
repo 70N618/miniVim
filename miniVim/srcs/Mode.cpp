@@ -27,6 +27,7 @@ Mode::Mode(MainWindow &win, Ui::MainWindow &ui, const char *file):ui(ui),win(win
   this->sel_struct = new t_sel();
   this->dTimer = new QElapsedTimer();
   this->yTimer = new QElapsedTimer();
+  this->gTimer = new QElapsedTimer();
   this->sel_struct->tcurs = this->ui.iTextEdit->textCursor();
 
   // Install EventFilter on both insert and edit QTextEdit

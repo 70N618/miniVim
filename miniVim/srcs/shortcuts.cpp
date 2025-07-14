@@ -72,3 +72,13 @@ void Mode::copyLine()
 
   }
 }
+
+void Mode::startOfFile()
+{
+  qDebug() << gTimer->elapsed();
+
+  if (gTimer->elapsed() <= 1500)
+  {
+    ui.iTextEdit->moveCursor(QTextCursor::Start);
+  }
+}

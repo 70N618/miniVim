@@ -33,6 +33,7 @@ class Mode: public QPlainTextEdit
     void createFile();
     void deleteLine();
     void copyLine();
+    void startOfFile();
 
   public slots:
     void toggleEscMode();
@@ -69,8 +70,10 @@ class Mode: public QPlainTextEdit
     QFile out;
     int dCount;
     int yCount;
+    int gCount;
     QElapsedTimer *dTimer;
     QElapsedTimer *yTimer;
+    QElapsedTimer *gTimer;
     bool nl;
     char last_char;
     int ind_flag;

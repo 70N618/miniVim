@@ -140,6 +140,20 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
           yTimer->invalidate();
         }
         break;
+      case(Qt::Key_G):
+        if (gCount == 0 || gCount %2 != 0)
+        {
+          if (gTimer->isValid() == false)
+            gTimer->start();
+          gCount++;
+        }
+        if (gCount %2 == 0)
+        {
+          startOfFile();
+          gCount^=gCount;
+          gTimer->invalidate();
+        }
+        break;
     }
     return true;
   }
