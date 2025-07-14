@@ -69,7 +69,7 @@ SyntaxHighlight::SyntaxHighlight(QTextDocument *parent): QSyntaxHighlighter(pare
 
     functionFormat.setFontItalic(true);
     functionFormat.setForeground(Qt::yellow);
-    rule.pattern = QRegularExpression(QStringLiteral("\\b[A-Za-z0-9_]+(?=\\()"));
+    rule.pattern = QRegularExpression(QStringLiteral("\\b[A-Za-z0-9_]+ *(?=\\()"));
     rule.format = functionFormat;
     highlightingRules.append(rule);
 

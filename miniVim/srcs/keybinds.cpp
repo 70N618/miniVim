@@ -29,48 +29,59 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
   if (this->ins_mode == true  && esc_mode == false)
   {
       QTextCursor cs = ui.iTextEdit->textCursor();
+      qDebug() << "Indent flag: " << ind_flag;
 
-      // When enter is pressed
+      /* @Brief:
+       * Indent is calculated with the number of current tabs in the line
+       * and eventually checking for { or }
+       * */
 
       if (keyEvent->key() == Qt::Key_Return)
       {
         // Get current block of text, remove spaces and checks for it
 
-        QString curr = cs.block().text().trimmed();
+        QString curr = cs.block().text();
+        QString trimmed = cs.block().text().trimmed();
+        QString indent;
 
-        if (curr == '{')
+        for (QChar ch: curr)
         {
-          ind_flag++;
-
-          cs.insertText("\r");
-
-          for (int i = 0; i < ind_flag; i++)
-            cs.insertText("\t");
-          ui.iTextEdit->setTextCursor(cs);
-
-          return true;
+          if (ch == '\t') indent += ch;
+          else if (ch == ' ') indent += ' ';
+          else break;
         }
 
-        // If its any text, checks if we must indent it
+        cs.insertText("\n");
 
-        else
-        {
-          cs.insertText("\r");
-          for (int i = 0; i < ind_flag; i++)
-            cs.insertText("\t");
-          return true;
-        }
+        if (trimmed.endsWith('{'))
+          indent+='\t';
 
+        cs.insertText(indent);
+
+        ui.iTextEdit->setTextCursor(cs);
+
+        return true;
       }
-
-      // If return is not being pressed and } is pressed, we must remove indent
 
       if (keyEvent->text() == '}')
       {
-        ind_flag--;
-        cs.insertText("\n");
-        for (int i = 0; i < ind_flag; i++)
-          cs.insertText("\t");
+        QString curr = cs.block().text();
+        QString indent;
+
+        qDebug() << curr;
+
+        for (QChar ch: curr)
+        {
+          if (ch == '\t') indent += ch;
+          else if (ch == ' ') indent += ' ';
+          else break;
+        }
+
+        if (indent.endsWith('\t'))
+          indent.chop(1);
+
+        cs.insertText("\n" + indent + '}');
+        return true;
       }
   }
 
