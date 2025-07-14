@@ -26,7 +26,7 @@
 
 bool Mode::keyBinds(QKeyEvent *keyEvent)
 {
-  if (this->ins_mode == true)
+  if (this->ins_mode == true  && esc_mode == false)
   {
       QTextCursor cs = ui.iTextEdit->textCursor();
 
@@ -36,48 +36,31 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
 
       if (keyEvent->key() == Qt::Key_Return)
       {
-        cs.insertText("\r");
-        if (ind_flag > 0)
+        QString curr = cs.block().text().trimmed();
+        if (curr == '{')
         {
-          for (int i = 0; i < ind_flag; ++i)
-                cs.insertText("\t");
+          ind_flag++;
+
+          cs.insertText("\n");
+          for (int i = 0; i < ind_flag; i++)
+            cs.insertText("\t");
+
+          return true;
         }
-        return true;
+        else
+        {
+          cs.insertText("\r");
+          for (int i = 0; i < ind_flag; i++)
+            cs.insertText("\t");
+          return true;
+        }
       }
-
-      if (keyEvent->text() == '{')
+      if (keyEvent->text() == '}')
       {
-        // Opening line
-        // On 2nd interation { is already correctly indented.
-
-        if (ind_flag > 0)
-        {
-          for (int i = 0; i < ind_flag - base_indent; ++i)
-                cs.insertText("\t");
-        }
-        cs.insertText("{\n");
-
-        // Inner line
-
-        ind_flag++;
-        for (int i = 0; i < ind_flag; ++i)
-            cs.insertText("\t");
+        ind_flag--;
         cs.insertText("\n");
-
-        // Closing line
-
-        for (int i = 0; i < base_indent; ++i)
-            cs.insertText("\t");
-        cs.insertText("}");
-
-        // Move cursor to the inner blank line
-
-        cs.movePosition(QTextCursor::Up);
-        cs.movePosition(QTextCursor::EndOfLine);
-
-        ui.iTextEdit->setTextCursor(cs);
-
-        return true;
+        for (int i = 0; i < ind_flag; i++)
+          cs.insertText("\t");
       }
   }
 
