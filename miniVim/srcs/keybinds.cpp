@@ -15,6 +15,7 @@
 #include <qregion.h>
 #include <qtextcursor.h>
 #include <qtimer.h>
+#include <qtmetamacros.h>
 
 /* @brief: Handles Keybinds when in NRM mode.
  * Once a keybind is handled it must return true.
@@ -137,16 +138,33 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
         ui.iTextEdit->setTextCursor(sel_struct->tcurs);
         break;
       case(Qt::Key_O):
-        ui.iTextEdit->moveCursor(QTextCursor::EndOfLine);
-        ui.iTextEdit->insertPlainText("\n");
-        for (int i = 0; i < this->ind_flag; ++i)
         {
-          sel_struct->tcurs.insertText("\t");
+          QTextCursor cs = ui.iTextEdit->textCursor();
+          QString curr = cs.block().text();
+          QString trimmed = cs.block().text().trimmed();
+          QString indent;
+
+          for (QChar ch: curr)
+          {
+            if (ch == '\t') indent += ch;
+            else if (ch == ' ') indent += ' ';
+            else break;
+          }
+
+          cs.movePosition(QTextCursor::EndOfLine);
+          cs.insertText("\n");
+
+          if (trimmed.endsWith('{'))
+            indent+='\t';
+
+          cs.insertText(indent);
+
+          ui.iTextEdit->setTextCursor(cs);
+          this->ins_mode = true;
+          this->esc_mode = false;
+          ui.label->setText("INS");
+          break;
         }
-        this->esc_mode = false;
-        this->ins_mode = true;
-        this->ui.label->setText("INS");
-        break;
       case(Qt::Key_D):
         if (dCount == 0 || dCount %2 != 0)
         {
