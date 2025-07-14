@@ -1,8 +1,7 @@
 # miniVim
 
 **WHAT THE VERY EARLY VERSION LOOKS LIKE AS OF NOW**
-![Screenshot from 2025-07-09 12-55-56](https://github.com/user-attachments/assets/401b542c-153e-428f-a080-a680f8654be2)
-
+<img width="1859" height="1013" alt="Screenshot from 2025-07-14 12-47-17" src="https://github.com/user-attachments/assets/b99d7883-420c-493b-a2c5-b9801a25e24a" />
 
 
 **miniVim** is a minimalist reimplementation of the classic Vim editor — built from scratch using C++ and Qt. The goal is not to recreate Vim in its entirety, but to explore how editors like Vim work under the hood, with fewer features and shortcuts for clarity and learning.
