@@ -26,42 +26,59 @@
 
 bool Mode::keyBinds(QKeyEvent *keyEvent)
 {
-if (this->ins_mode == true)
-{
-    QTextCursor cs = ui.iTextEdit->textCursor();
+  if (this->ins_mode == true)
+  {
+      QTextCursor cs = ui.iTextEdit->textCursor();
 
-    int base_indent = ind_flag;
+      int base_indent = ind_flag;
 
-    if (keyEvent->text() == '{')
-    {
-      // Opening line
+      // If key is return and ind_flag is already higher than 0
 
-      for (int i = 1; i < base_indent; ++i)
+      if (keyEvent->key() == Qt::Key_Return)
+      {
+        cs.insertText("\r");
+        if (ind_flag > 0)
+        {
+          for (int i = 0; i < ind_flag; ++i)
+                cs.insertText("\t");
+        }
+        return true;
+      }
+
+      if (keyEvent->text() == '{')
+      {
+        // Opening line
+        // On 2nd interation { is already correctly indented.
+
+        if (ind_flag > 0)
+        {
+          for (int i = 0; i < ind_flag - base_indent; ++i)
+                cs.insertText("\t");
+        }
+        cs.insertText("{\n");
+
+        // Inner line
+
+        ind_flag++;
+        for (int i = 0; i < ind_flag; ++i)
             cs.insertText("\t");
-      cs.insertText("{\n");
+        cs.insertText("\n");
 
-      // Inner line
+        // Closing line
 
-      ind_flag++;
-      for (int i = 0; i < ind_flag; ++i)
-          cs.insertText("\t");
-      cs.insertText("\n");
+        for (int i = 0; i < base_indent; ++i)
+            cs.insertText("\t");
+        cs.insertText("}");
 
-      // Closing line
+        // Move cursor to the inner blank line
 
-      for (int i = 0; i < base_indent; ++i)
-          cs.insertText("\t");
-      cs.insertText("}");
+        cs.movePosition(QTextCursor::Up);
+        cs.movePosition(QTextCursor::EndOfLine);
 
-      // Move cursor to the inner blank line
+        ui.iTextEdit->setTextCursor(cs);
 
-      cs.movePosition(QTextCursor::Up);
-      cs.movePosition(QTextCursor::EndOfLine);
-
-      ui.iTextEdit->setTextCursor(cs);
-
-      return true;
-    }
+        return true;
+      }
   }
 
   if (this->esc_mode == true && this->cmd_mode == false)
