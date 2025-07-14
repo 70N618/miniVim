@@ -30,23 +30,29 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
   {
       QTextCursor cs = ui.iTextEdit->textCursor();
 
-      int base_indent = ind_flag;
-
-      // If key is return and ind_flag is already higher than 0
+      // When enter is pressed
 
       if (keyEvent->key() == Qt::Key_Return)
       {
+        // Get current block of text, remove spaces and checks for it
+
         QString curr = cs.block().text().trimmed();
+
         if (curr == '{')
         {
           ind_flag++;
 
-          cs.insertText("\n");
+          cs.insertText("\r");
+
           for (int i = 0; i < ind_flag; i++)
             cs.insertText("\t");
+          ui.iTextEdit->setTextCursor(cs);
 
           return true;
         }
+
+        // If its any text, checks if we must indent it
+
         else
         {
           cs.insertText("\r");
@@ -54,7 +60,11 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
             cs.insertText("\t");
           return true;
         }
+
       }
+
+      // If return is not being pressed and } is pressed, we must remove indent
+
       if (keyEvent->text() == '}')
       {
         ind_flag--;
@@ -73,21 +83,27 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
     switch (key)
     {
       case(Qt::Key_H):
+        sel_struct->tcurs.movePosition(QTextCursor::Left);
         ui.iTextEdit->moveCursor(QTextCursor::Left);
         break;
       case(Qt::Key_J):
+        sel_struct->tcurs.movePosition(QTextCursor::Down);
         ui.iTextEdit->moveCursor(QTextCursor::Down);
         break;
       case(Qt::Key_K):
+        sel_struct->tcurs.movePosition(QTextCursor::Up);
         ui.iTextEdit->moveCursor(QTextCursor::Up);
         break;
       case(Qt::Key_L):
+        sel_struct->tcurs.movePosition(QTextCursor::Right);
         ui.iTextEdit->moveCursor(QTextCursor::Right);
         break;
       case(Qt::Key_Dollar):
+        sel_struct->tcurs.movePosition(QTextCursor::EndOfLine);
         ui.iTextEdit->moveCursor(QTextCursor::EndOfLine);
         break;
       case(Qt::Key_0):
+        sel_struct->tcurs.movePosition(QTextCursor::StartOfLine);
         ui.iTextEdit->moveCursor(QTextCursor::StartOfLine);
         break;
       case(Qt::Key_P):
