@@ -1,5 +1,4 @@
 #include "../includes/Mode.h"
-#include "../includes/Mode.h"
 #include "../includes/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <qaction.h>

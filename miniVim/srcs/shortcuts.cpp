@@ -31,11 +31,13 @@ void Mode::deleteLine()
       qDebug() << c.selectedText();
       c.removeSelectedText();
     }
+    else
+      c.deleteChar();
 
     // Remove new line
 
     c.deletePreviousChar();
-    c.movePosition(QTextCursor::StartOfLine);
+    c.movePosition(QTextCursor::EndOfLine);
 
     ui.iTextEdit->setTextCursor(c);
 
