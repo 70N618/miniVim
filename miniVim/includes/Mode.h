@@ -47,7 +47,7 @@ class Mode: public QPlainTextEdit
     bool cmdHandler(QKeyEvent *keyEvent);
     bool visMode(QKeyEvent *keyEvent);
     bool keyBinds(QKeyEvent *keyEvent);
-    bool indent(QKeyEvent *ke);
+    bool indent(QKeyEvent *keyEvent);
 
   signals:
     void sigNormMode();

@@ -29,61 +29,8 @@ bool Mode::keyBinds(QKeyEvent *keyEvent)
 {
   if (this->ins_mode == true  && esc_mode == false)
   {
-      QTextCursor cs = ui.iTextEdit->textCursor();
-      qDebug() << "Indent flag: " << ind_flag;
-
-      /* @Brief:
-       * Indent is calculated with the number of current tabs in the line
-       * and eventually checking for { or }
-       * */
-
-      if (keyEvent->key() == Qt::Key_Return)
-      {
-        // Get current block of text, remove spaces and checks for it
-
-        QString curr = cs.block().text();
-        QString trimmed = cs.block().text().trimmed();
-        QString indent;
-
-        for (QChar ch: curr)
-        {
-          if (ch == '\t') indent += ch;
-          else if (ch == ' ') indent += ' ';
-          else break;
-        }
-
-        cs.insertText("\n");
-
-        if (trimmed.endsWith('{'))
-          indent+='\t';
-
-        cs.insertText(indent);
-
-        ui.iTextEdit->setTextCursor(cs);
-
-        return true;
-      }
-
-      if (keyEvent->text() == '}')
-      {
-        QString curr = cs.block().text();
-        QString indent;
-
-        qDebug() << curr;
-
-        for (QChar ch: curr)
-        {
-          if (ch == '\t') indent += ch;
-          else if (ch == ' ') indent += ' ';
-          else break;
-        }
-
-        if (indent.endsWith('\t'))
-          indent.chop(1);
-
-        cs.insertText("\n" + indent + '}');
-        return true;
-      }
+    QTextCursor cs = ui.iTextEdit->textCursor();
+    return indent(keyEvent);
   }
 
   if (this->esc_mode == true && this->cmd_mode == false)
